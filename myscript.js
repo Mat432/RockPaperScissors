@@ -1,4 +1,9 @@
-// computer player
+//  on start 
+let playerScore = 0
+let computerScore = 0
+let gamesPlayed = 0
+
+// computer choice function
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() *3);
     
@@ -16,36 +21,56 @@ function getComputerChoice() {
         break;
     }
 }
-console.log(getComputerChoice())
-
 
 // game rules 
 function playRound (playerSelection, computerSelection) {
     
-    let player = playerSelection.toLowerCase();
+    let player = playerSelection
     let computer = computerSelection
 
-        if (player === "rock" && computer === "paper")
-            return "AI win";
-        else if (player === "rock" && computer === "scissors")
-            return "You win";
-        else if (player === "paper" && computer === "rock")
-            return "You win";
-        else if (player === "paper" && computer === "scissors")
-            return "AI win";
-        else if (player === "scissors" && computer === "rock")
-            return "AI win";
-        else if (player === "scissors" && computer === "paper")
-            return "You win";
+        if (player === "rock" && computer === "rock") {
+            return "It's a tie! You both picked rock"
+        } else if (player === "paper" && computer === "paper") {
+            return "IT's a tie! You both picked paper"
+        } else if (player === "scissors" && computer === "scissors") {
+            return "It's a tie! You both picked scissors"
+        } else if (player === "rock" && computer === "paper") {
+            computerScore++
+            return "AI win"
+        } else if (player === "rock" && computer === "scissors") {
+            playerScore++
+            return "You win"
+        } else if (player === "paper" && computer === "rock") {
+            playerScore++
+            return "You win"
+        } else if (player === "paper" && computer === "scissors") {
+            computerScore++
+            return "AI win"
+        } else if (player === "scissors" && computer === "rock") {
+            computerScore++
+            return "AI win"
+        } else if (player === "scissors" && computer === "paper") {
+            playerScore++
+            return "You win"
+        }
 
+        
 }
-//const playerSelection = "rock";
-//const computerSelection = getComputerChoice();
-//console.log(playRound(playerSelection, computerSelection));
 
-// score 
-function game() {
-    
-    const count = prompt("Make a choice")
+const playerSelection = "rock";
+const computerSelection = getComputerChoice();
 
+const game = () => {
+    for (i = 0; i < 5; i++) {
+    playRound(playerSelection, computerSelection) 
+    }
+
+    if (playerScore > computerScore) {
+        return "You are better than AI!"
+    } else if (playerScore < computerScore) {
+        return "AI outsmarted You!"
+    } else {
+        return "It's a tide!"
+    }
 }
+console.log(game())
