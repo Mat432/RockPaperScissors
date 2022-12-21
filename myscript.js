@@ -1,4 +1,4 @@
-//  on start 
+//  on start score and who plays
 let playerScore = 0
 let computerScore = 0
 let gamesPlayed = 0
@@ -57,13 +57,17 @@ function playRound (playerSelection, computerSelection) {
         
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
 
+
+// number of game rounds and winner
 const game = () => {
     for (i = 0; i < 5; i++) {
-    playRound(playerSelection, computerSelection) 
+        const computerSelection = getComputerChoice();
+        const playerSelection = prompt("Make a choice").toLowerCase();
+    
+        playRound(playerSelection, computerSelection) 
     }
+
 
     if (playerScore > computerScore) {
         return "You are better than AI!"
