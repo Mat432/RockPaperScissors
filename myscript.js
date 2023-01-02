@@ -1,7 +1,12 @@
-//  on start score and who plays
-let playerScore = 0
-let computerScore = 0
-let gamesPlayed = 0
+let playerScore
+let computerScore
+
+const options = document.querySelectorAll(".options");
+const results = document.querySelector(".results");
+const score = document.querySelector(".score");
+
+gameStart();
+updateScore();
 
 // computer choice function
 function getComputerChoice() {
@@ -19,62 +24,62 @@ function getComputerChoice() {
         case 2:
             return "scissors";
         break;
+
+        default:
+            return 2;
+        break;
+
     }
 }
 
 // game rules 
-function playRound (playerSelection, computerSelection) {
-    
-    let player = playerSelection
-    let computer = computerSelection
+function playRound(playerSelection, computerSelection) {
+  let player = playerSelection;
+  let computer = computerSelection;
 
-        if (player === "rock" && computer === "rock") {
-            return "It's a tie! You both picked rock"
-        } else if (player === "paper" && computer === "paper") {
-            return "IT's a tie! You both picked paper"
-        } else if (player === "scissors" && computer === "scissors") {
-            return "It's a tie! You both picked scissors"
-        } else if (player === "rock" && computer === "paper") {
-            computerScore++
-            return "AI win"
-        } else if (player === "rock" && computer === "scissors") {
-            playerScore++
-            return "You win"
-        } else if (player === "paper" && computer === "rock") {
-            playerScore++
-            return "You win"
-        } else if (player === "paper" && computer === "scissors") {
-            computerScore++
-            return "AI win"
-        } else if (player === "scissors" && computer === "rock") {
-            computerScore++
-            return "AI win"
-        } else if (player === "scissors" && computer === "paper") {
-            playerScore++
-            return "You win"
-        }
-
-        
+  if (player === computer) {
+    results.textContent = "It's a draw";
+  } else if ((player === "rock" && computer === "scissors") ||
+             (player === "paper" && computer === "rock") ||
+             (player === "scissors" && computer === "paper")) {
+    playerScore++;
+    updateScore();
+    results.textContent = "You won";
+  } else {
+    computerScore++;
+    updateScore();
+    results.textContent = "AI won";
+  };
 }
 
 
-
-// number of game rounds and winner
-const game = () => {
-    for (i = 0; i < 5; i++) {
-        const computerSelection = getComputerChoice();
-        const playerSelection = prompt("Make a choice").toLowerCase();
-    
-        playRound(playerSelection, computerSelection) 
-    }
-
-
-    if (playerScore > computerScore) {
-        return "You are better than AI!"
-    } else if (playerScore < computerScore) {
-        return "AI outsmarted You!"
-    } else {
-        return "It's a tide!"
-    }
+function gameStart() {
+  playerScore = 0;
+  computerScore = 0;
+  options.forEach(choice => {
+    choice.disabled = false;
+  });
+  updateScore();
 }
-console.log(game())
+
+// Score and winner
+function updateScore() {
+  if (playerScore===5) {
+    score.textContent =  "You Win this round!"
+} else if (computerScore===5) {
+    score.textContent = "Ai Wins this round!"
+} else {
+  score.textContent = `${playerScore} - ${computerScore}`;
+}
+}
+
+function play(playerSelection) {
+  let computerSelection = getComputerChoice();
+   return playRound(playerSelection, computerSelection);
+}
+
+options.forEach(choice => {
+  choice.addEventListener('click', () => {
+    play(choice.textContent);
+  })
+});
